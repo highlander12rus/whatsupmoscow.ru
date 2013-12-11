@@ -1,0 +1,7 @@
+`rm /var/log/vk_parser/*`
+`python /home/vk_demon/main.py stop`
+`python /home/websocket_demon/WebSocket.py stop`
+`python /home/vk_demon/main.py start`
+`python /home/websocket_demon/WebSocket.py start`
+`cd /var/log/vk_parser/`
+echo "daemons is runing"

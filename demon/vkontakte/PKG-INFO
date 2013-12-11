@@ -1,0 +1,136 @@
+Metadata-Version: 1.0
+Name: vkontakte
+Version: 1.3.2
+Summary: vk.com (aka vkontakte.ru) API wrapper
+Home-page: http://bitbucket.org/kmike/vkontakte/
+Author: Mikhail Korobov
+Author-email: kmike84@gmail.com
+License: MIT license
+Description: =========
+        vkontakte
+        =========
+        
+        This is a vk.com (aka vkontakte.ru, largest Russian social network)
+        python API wrapper. The goal is to support all API methods (current and future)
+        that can be accessed from server.
+        
+        Installation
+        ============
+        
+        ::
+        
+            $ pip install vkontakte
+        
+        Usage
+        =====
+        
+        ::
+        
+            >>> import vkontakte
+            >>> vk = vkontakte.API('my_api_id', 'my_api_secret')
+            >>> print vk.getServerTime()
+            1282689362
+        
+            >>> vk = vkontakte.API(token='my_access_token')
+            >>> print vk.getServerTime()
+            1282689362
+        
+            >>> profiles = vk.getProfiles(uids='1,2', fields='education')
+            >>> pavel = profiles[0]
+            >>> print pavel['last_name'], pavel['university_name']
+            Дуров СПбГУ
+        
+            >>> # alternative syntax
+            >>> profiles = vk.get('getProfiles', uids='1,2', fields='education')
+            >>> pavel = profiles[0]
+            >>> print pavel['last_name'], pavel['university_name']
+            Дуров СПбГУ
+        
+            >>> # custom timeout example (default timeout = 1s)
+            >>> vk = vkontakte.API('my_api_id', 'my_api_secret', timeout=5)
+            >>> print vk.getServerTime()
+            1282689362
+        
+            >>> # syntax sugar for 'secure.*' methods
+            >>> print vk.secure.getSMSHistory()
+            None
+        
+        All API methods that can be called from server should be supported.
+        
+        See http://bit.ly/9Nzc8h for detailed API help.
+        
+        OAuth2 access_token is supported (docs are here http://vkontakte.ru/developers.php?oid=-1&p=Авторизация)
+        
+        Changes
+        =======
+        
+        1.3.2 (2012-05-19)
+        ------------------
+        
+        * more COMPLEX_METHODS are suported.
+        
+        1.3.1 (2012-04-09)
+        ------------------
+        
+        * don't raise an exception on json with control characters from vkontakte;
+        * properly encode request parameters after dumping them to json format.
+        
+        1.3 (2012-03-27)
+        ----------------
+        
+        * dict, list and tuple arguments are now properly serialized;
+        * more info is preserved in VKError.
+        
+        1.2.1 (2012-02-15)
+        ------------------
+        
+        * properly encode unicode for API calls;
+        * tox test running.
+        
+        1.2 (2012-01-20)
+        ----------------
+        
+        * 'get' API calls are fixed;
+        * tests are added.
+        
+        1.1.0 (2012-01-11)
+        ------------------
+        
+        * more magic methods are supported;
+        * proper timestamp calculation.
+        
+        1.0.0 (2011-12-29)
+        ------------------
+        
+        * OAuth2 support;
+        * api.ads support;
+        
+        
+        0.9.5 (2010-10-30)
+        ------------------
+        
+        * syntax sugar for 'secure' methods;
+        * make vkontakte.signature public;
+        * unicode param names are fixed;
+        
+        0.9.3 (2010-09-02)
+        ------------------
+        
+        * timeout support
+        
+        0.9.1 (2010-08-25)
+        ------------------
+        Initial release.
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

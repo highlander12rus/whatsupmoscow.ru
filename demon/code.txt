@@ -1,0 +1,100 @@
+var COUNT_CHEKING = 18;
+var LAST_TIME = %time_replace%;
+var max_time = 0;
+
+var cordinatesPonint = [
+	[55.91843, 37.379394],
+	[55.908424, 37.541442],
+	[55.895336, 37.682891],
+	[55.822116, 37.821593],
+	[55.742574, 37.839446],
+	[55.658996, 37.836699],
+	[55.579897, 37.687011],
+	[55.583002, 37.551055],
+	[55.646599, 37.387633],
+	[55.72943, 37.38214],
+	[55.829059, 37.399993],
+	[55.827516, 37.541442],
+	[55.816715, 37.680144],
+	[55.730977, 37.680144],
+	[55.66132, 37.677398],
+	[55.66132, 37.537322],
+	[55.740255, 37.535949],
+	[55.754071, 37.617504],
+	[55.989164, 37.184386],
+	[55.519302, 37.520843],
+];
+
+var placesMoscow = [];
+var iCordinatesPonint = 0;
+while(iCordinatesPonint < cordinatesPonint.length)  {
+		placesMoscow = placesMoscow + [API.places.getCheckins({
+		"latitude":cordinatesPonint[iCordinatesPonint][0], 
+		"longitude":cordinatesPonint[iCordinatesPonint][1], 
+		"count":COUNT_CHEKING,
+		"timestamp": LAST_TIME
+	})];
+	iCordinatesPonint = iCordinatesPonint + 1;
+}
+
+var walls;
+
+var iMoscow = 0;
+var returnObj = [];
+var wallsIds = [];
+var returnObj2 = [];
+var i;
+
+while(iMoscow < placesMoscow.length) {
+	var getWallId = placesMoscow[iMoscow]@.latitude;
+	var i = 1;
+	
+	while(i < getWallId.length) {
+		if(getWallId[i] == 0) {
+			wallsIds = wallsIds + [placesMoscow[iMoscow][i].id];
+		} else {
+			if(max_time < placesMoscow[iMoscow][i].date) {
+				max_time = placesMoscow[iMoscow][i].date;
+			}
+				
+			returnObj = returnObj + [{
+				"lat": placesMoscow[iMoscow][i].latitude,
+				"lng": placesMoscow[iMoscow][i].longitude,
+				"id": placesMoscow[iMoscow][i].id,
+				"time": placesMoscow[iMoscow][i].date
+			}];
+		}
+		i = i + 1;
+		
+	}
+	iMoscow = iMoscow + 1;
+}
+
+if(wallsIds.length > 0) {
+	walls = API.wall.getById({"posts": wallsIds});
+	i = 0;
+	while(i < walls.length) {
+		if(max_time < walls[i].date) {
+				max_time = walls[i].date;
+		}
+		returnObj2 = returnObj2 + [{
+			"coordinates": walls[i].geo.coordinates,
+			"time": walls[i].date,
+			"id": wallsIds[i]
+			}];
+		i = i + 1;
+		}
+	} 
+var moscow =  {
+	"checkins": returnObj,
+	"wals": returnObj2
+};
+
+
+return {
+"max_time" : max_time,
+"spb": {
+	"checkins": [],
+	"wals": []
+}, 
+"moscow" : moscow};
