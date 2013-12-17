@@ -8,8 +8,7 @@ Python 2, MongoDB 2.4.6 или выше.
 
 Установка
 ------------
-Требуется установка tornado (для WebSocket)<br>
-vkontakte
+Требуется установка tornado (для WebSocket), vkontakte<br>
 `pip install tornado`<br>
 `pip install vkontakte`<br>
 `pip install pymongo`<br>
